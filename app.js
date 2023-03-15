@@ -12,14 +12,193 @@ app.use(express.json());
 // Routes
 app.get("/", (req, res) => {
   res.send(`
-        <html>
-            <body>
-                <form action="/scrape" method="POST">
-                    <input type="url" name="url" id="url" />
-                    <input type="submit" value="Submit" />
-                </form>
-            </body>
-        </html>
+  <html>
+  <head>
+    <title>Team Score Predictor</title>
+    <style>
+      body {
+        background-color: #191919;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding: 0 20px;
+      }
+      
+      h1 {
+        color: #F0F0F0;
+        font-size: 50px;
+        margin: 0;
+        flex-grow: 1;
+        text-align: center;
+        margin-right: 8%;
+      }
+      
+      .faq {
+        color: #F0F0F0;
+        margin: 0;
+        margin-left: 20px;
+        width: 5%;
+        padding: 10px;
+        font-size: 1.2em;
+        background-color: #6E6E6E;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .faq:hover{
+        background-color: #1464b5;
+       transition: background-color 0.3s;
+      }
+      /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  border-radius: 5px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 50px;
+      }
+
+      input[type="url"] {
+        width: 60%;
+        padding: 10px;
+        font-size: 1.2em;
+        margin-right: 10px;
+        border-radius: 5px;
+        border: none;
+      }
+
+      input[type="submit"] {
+        width: 20%;
+        padding: 10px;
+        font-size: 1.2em;
+        background-color: #6E6E6E;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover{
+       background-color: #1464b5;
+       transition: background-color 0.3s;
+      }
+      
+      /* add the loader styles */
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #1464b5;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -60px; /* half of the loader width */
+        transform: translate(-50%, -50%);
+      }
+
+      .loader-hidden {
+        display: none;
+      }
+
+      /* add keyframes for spinner animation */
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+    </style>
+  </head>
+  <body>
+  <div class="header">
+  <button class="faq" onclick="showModal()">FAQ</button>
+
+<div id="modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" onclick="hideModal()">&times;</span>
+    Q: What are some example URL's? <br>
+    A: https://www.tfrrs.org/lists/3970/BIG_EAST_Indoor_Performance_List &nbsp;&nbsp;&nbsp;&nbsp; https://tf.tfrrs.org/lists/3947/Big_12_Indoor_Performance_List <br> <br>
+    Q: Which conferences are included in the scoring system? <br>
+    A: This scoring system includes all major track conferences in the United States. <br> <br>
+    Q: How does the website predict the conferences scores? <br>
+    A: The website uses Puppeteer to webscrape the website TFRRS and predicts team scores based on past results. <br> <br>
+    Q: How does the scoring system work? <br>
+    A: The scoring system awards points to each team based on their placement in each given event. The team that finishes in first place is awarded 10 points, the team in second place receives 8 points, third place receives 6 points, fourth place receives 4 points, fifth place receives 2 points, and sixth place receives 1 point. 
+  </div>
+
+</div>
+  <h1>Input the URL of the track conference you wish to score below</h1>
+
+</div>
+    <form action="/scrape" method="POST">
+    <input type="url" name="url" id="url" placeholder="https://www.tfrrs.org/lists/3952/Big_Ten_Indoor_Performance_List">
+    <input type="submit" value="Submit" onclick="showLoader()">
+    </form>
+      <div class="loader loader-hidden" id="loader"></div>
+      <script>
+  function showLoader() {
+    document.getElementById("loader").classList.remove("loader-hidden");
+  }
+  function showModal() {
+    document.getElementById("modal").style.display = "block";
+  }
+  function hideModal(){
+    document.getElementById("modal").style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+  </body>
+</html>
     `);
 });
 
@@ -126,6 +305,193 @@ app.post("/scrape", async (req, res) => {
 
   // format the output with HTML and CSS
   const output = `
+  <html>
+  <head>
+    <title>Team Score Predictor</title>
+    <style>
+      body {
+        background-color: #191919;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 100px;
+        padding: 0 20px;
+      }
+      
+      h1 {
+        color: #F0F0F0;
+        font-size: 50px;
+        margin: 0;
+        flex-grow: 1;
+        text-align: center;
+        margin-right: 8%;
+      }
+      
+      .faq {
+        color: #F0F0F0;
+        margin: 0;
+        margin-left: 20px;
+        width: 5%;
+        padding: 10px;
+        font-size: 1.2em;
+        background-color: #6E6E6E;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .faq:hover{
+        background-color: #1464b5;
+       transition: background-color 0.3s;
+      }
+      /* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  border-radius: 5px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 50px;
+      }
+
+      input[type="url"] {
+        width: 60%;
+        padding: 10px;
+        font-size: 1.2em;
+        margin-right: 10px;
+        border-radius: 5px;
+        border: none;
+      }
+
+      input[type="submit"] {
+        width: 20%;
+        padding: 10px;
+        font-size: 1.2em;
+        background-color: #6E6E6E;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover{
+       background-color: #1464b5;
+       transition: background-color 0.3s;
+      }
+      
+      /* add the loader styles */
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #1464b5;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -60px; /* half of the loader width */
+        transform: translate(-50%, -50%);
+      }
+
+      .loader-hidden {
+        display: none;
+      }
+
+      /* add keyframes for spinner animation */
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+    </style>
+  </head>
+  <body>
+  <div class="header">
+  <button class="faq" onclick="showModal()">FAQ</button>
+
+<div id="modal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" onclick="hideModal()">&times;</span>
+    Q: What are some example URL's? <br>
+    A: https://www.tfrrs.org/lists/3970/BIG_EAST_Indoor_Performance_List &nbsp;&nbsp;&nbsp;&nbsp; https://tf.tfrrs.org/lists/3947/Big_12_Indoor_Performance_List <br> <br>
+    Q: Which conferences are included in the scoring system? <br>
+    A: This scoring system includes all major track conferences in the United States. <br> <br>
+    Q: How does the website predict the conferences scores? <br>
+    A: The website uses Puppeteer to webscrape the website TFRRS and predicts team scores based on past results. <br> <br>
+    Q: How does the scoring system work? <br>
+    A: The scoring system awards points to each team based on their placement in each given event. The team that finishes in first place is awarded 10 points, the team in second place receives 8 points, third place receives 6 points, fourth place receives 4 points, fifth place receives 2 points, and sixth place receives 1 point. 
+  </div>
+
+</div>
+  <h1>Input the URL of the track conference you wish to score below</h1>
+
+</div>
+    <form action="/scrape" method="POST">
+    <input type="url" name="url" id="url" placeholder="https://www.tfrrs.org/lists/3952/Big_Ten_Indoor_Performance_List">
+    <input type="submit" value="Submit" onclick="showLoader()">
+    </form>
+      <div class="loader loader-hidden" id="loader"></div>
+      <script>
+  function showLoader() {
+    document.getElementById("loader").classList.remove("loader-hidden");
+  }
+  function showModal() {
+    document.getElementById("modal").style.display = "block";
+  }
+  function hideModal(){
+    document.getElementById("modal").style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+  </body>
+</html>
       <html>
         <head>
           <style>
@@ -133,7 +499,7 @@ app.post("/scrape", async (req, res) => {
               border-collapse: collapse;
               width: 100%;
               margin-bottom: 1rem;
-              color: #212529;
+              color: #e6eaf2;
               font-size: 0.9rem;
               font-weight: 400;
               line-height: 1.6;
@@ -141,24 +507,24 @@ app.post("/scrape", async (req, res) => {
             }
   
             th, td {
-              padding: 0.75rem;
+              padding: 0.5rem;
               vertical-align: top;
-              border-top: 1px solid #dee2e6;
+              border-top: 1px solid #1464b5;
+              font-size: 25px;
             }
   
             th {
               font-weight: 700;
-              background-color: #f8f9fa;
+              background-color: transparent;
             }
           </style>
         </head>
         <body>
-          <h1>Team Scores</h1>
           <table>
             <thead>
               <tr>
-                <th>Team</th>
-                <th>Score</th>
+                <th style="font-size: 30px;">Team</th>
+                <th style="font-size: 30px;">Score</th>
               </tr>
             </thead>
             <tbody>
