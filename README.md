@@ -15,6 +15,10 @@ This is a common challenge that many teams face, and my app makes it easier to g
 By using web scraping and an algorithm to predict team performance based on previous results, I can quickly and 
 easily determine which teams are likely to win, which saves time and effort for everyone involved.
 
+## 🥇 Tech stack + more
+
+For this project, I used JavaScript, Node.js, and Express.js to build the app and Puppeteer for web scraping. The goal was to make the app easy to use, where the user simply inputs the URL of the conference they want to score. Also, I wanted my algorithm to work for any conference, allowing teams from anywhere to get accurate score predictions. This project taught me a lot about full-stack web development, including front-end and back-end development, web scraping, and algorithms.
+
 # How to use the app:
 
 ## 1.) First go the the website https://www.tfrrs.org/
@@ -33,7 +37,6 @@ easily determine which teams are likely to win, which saves time and effort for 
 
 <img width="959" alt="TFRRS_App_URL" src="https://user-images.githubusercontent.com/67212189/231930456-d26e88d4-980c-4c3f-918f-c9a4948b62c8.png">
 
-## 5.) Click the "Submit" button once you have pasted in a URL and wait for the scores to load. A table will be display that looks similar to this:
+## 5.) Click the "Submit" button once you have pasted in a URL and wait for the scores to load. A table will be created that looks similar to this:
 
 <img width="958" alt="TFRRS_Scored" src="https://user-images.githubusercontent.com/67212189/231930680-0e69789d-20d5-45fd-abd1-6d9d77578489.png">
-
