@@ -4,7 +4,8 @@
   "description": "A web app that predicts the scores of track and field conference meets using the website TFRRS.",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "build": ""
   },
   "repository": {
     "type": "git",
