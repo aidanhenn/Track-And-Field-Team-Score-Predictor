@@ -1,0 +1,24 @@
+{
+  "name": "team-score-predictor",
+  "version": "1.0.0",
+  "description": "A web app that predicts the scores of track and field conference meets using the website TFRRS.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aidanhenn/TeamScoreCalc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aidanhenn/TeamScoreCalc/issues"
+  },
+  "homepage": "https://github.com/aidanhenn/TeamScoreCalc#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "puppeteer": "^19.7.5"
+  }
+}

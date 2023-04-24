@@ -1,7 +1,6 @@
 const puppeteer = require("puppeteer");
 const express = require("express");
 const app = express();
-
 // PORT
 const PORT = process.env.PORT || 3000;
 
@@ -203,7 +202,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/scrape", async (req, res) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+  });
   const page = await browser.newPage();
   await page.goto(req.body.url);
 
